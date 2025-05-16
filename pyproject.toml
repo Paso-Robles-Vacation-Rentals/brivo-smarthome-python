@@ -11,14 +11,14 @@ maintainers = [
     { name = "Anthony DeGarimore", email = "Anthony@DeGarimore.com" }
 ]
 requires-python = ">=3.13"
+dependencies = [
+    "httpx>=0.28.1",
+    "pydantic>=2.11",
+]
 
 [project.urls]
 repository = "https://github.com/Paso-Robles-Vacation-Rentals/brivo-smarthome-python"
 "Bug Tracker" = "https://github.com/Paso-Robles-Vacation-Rentals/brivo-smarthome-python/issues"
-
-[project.dependencies]
-httpx = ">=0.28.1"
-pydantic = ">=2.11"
 
 [project.optional-dependencies]
 dev = ["pytest"]
