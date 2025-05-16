@@ -117,7 +117,7 @@ class BaseBrivoClient(ABC):
         Returns:
         {
             "id":12345,
-            "email":"anthony@brivo.com",
+            "email":"anthony@brivo-smarthome.com",
             "first_name":"Anthony",
             "last_name":"DeGarimore",
             "bio":"",
@@ -145,7 +145,7 @@ class BaseBrivoClient(ABC):
                     "alternate_id":null,
                     "code":"1234",
                     "delivery_method":"sms",
-                    "email":"anthony@brivo.com",
+                    "email":"anthony@brivo-smarthome.com",
                     "start_time":"2022-10-31T11:00:00Z",
                     "end_time":null,
                     "first_name":"Anthony",
