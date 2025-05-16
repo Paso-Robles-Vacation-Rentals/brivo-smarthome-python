@@ -1,0 +1,27 @@
+[project]
+name = "brivo-smarthome"
+version = "0.0.1a1"
+description = "Library for interacting with Brivo's API."
+license = { text = "MIT" }
+readme = "README.md"
+authors = [
+    { name = "Anthony DeGarimore", email = "Anthony@DeGarimore.com" }
+]
+maintainers = [
+    { name = "Anthony DeGarimore", email = "Anthony@DeGarimore.com" }
+]
+requires-python = ">=3.13"
+
+[project.urls]
+repository = "https://github.com/Paso-Robles-Vacation-Rentals/brivo-smarthome-python"
+"Bug Tracker" = "https://github.com/Paso-Robles-Vacation-Rentals/brivo-smarthome-python/issues"
+
+[project.dependencies]
+httpx = ">=0.28.1"
+pydantic = ">=2.11"
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[build-system]
+requires = ["poetry-core"]
