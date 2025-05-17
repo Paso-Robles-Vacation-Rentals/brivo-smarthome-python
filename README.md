@@ -6,7 +6,7 @@ interacting with Brivo's API.
 ## Installation
 
 ```sh
-pip install brivo-smarthome
+pip install brivo
 ```
 
 ## Example Usage
