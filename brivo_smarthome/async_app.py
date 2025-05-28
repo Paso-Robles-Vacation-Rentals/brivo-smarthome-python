@@ -114,4 +114,3 @@ class AsyncApp(App):
     async def user(self, user_id: int) -> RegisteredUser:
         response = await self._handle_request(self._requests.user(user_id))
         return RegisteredUser.model_validate(response.json())
-        # TODO: test returning user object

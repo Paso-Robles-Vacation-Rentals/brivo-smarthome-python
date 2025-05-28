@@ -121,8 +121,7 @@ class App(BaseBrivoClient):
 
     def user(self, user_id: int) -> dict:
         response = self._handle_request(self._requests.user(user_id))
-        return response.json()
-        # TODO: Return User object
+        RegisteredUser.model_validate(response.json())
 
     def update_profile(self, profile: Profile) -> Profile:
         req = self._requests.update_profile(profile)
