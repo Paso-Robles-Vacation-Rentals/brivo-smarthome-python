@@ -29,7 +29,7 @@ Repository = "https://github.com/Paso-Robles-Vacation-Rentals/brivo-smarthome-py
 
 [tool.poetry]
 packages = [
-    { include = "brivo" }
+    { include = "brivo_smarthome" }
 ]
 
 [build-system]
