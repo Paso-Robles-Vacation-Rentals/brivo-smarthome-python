@@ -6,24 +6,24 @@ interacting with Brivo's API.
 ## Installation
 
 ```sh
-pip install brivo
+pip install brivo-smarthome
 ```
 
 ## Example Usage
 
 ```python
-import brivo
+from brivo_smarthome import App
 
 # Initialize the client
-brivo = brivo.BrivoClient(username='your_user_name', password='your_password')
+# Username and password can be set with environment variables 'BRIVO_USERNAME' and 'BRIVO_PASSWORD'
+brivo = App(username='your_user_name', password='your_password')
 
-# Get users
-users = brivo.users()
-print(users)
+# Get companies
+companies = brivo.my_company_ids()
 
-# Create a new unit
-new_unit = brivo.create_unit(...)
-print(new_unit)
+for company_id in companies:
+    for user in brivo.company_users(company_id):
+        print(user)
 ```
 
 ## Contributing

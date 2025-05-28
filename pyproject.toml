@@ -1,6 +1,6 @@
 [project]
 name = "brivo-smarthome"
-version = "0.0.1a2"
+version = "0.0.1a3"
 description = "Library for interacting with Brivo's API."
 readme = "README.md"
 requires-python = ">=3.13"
