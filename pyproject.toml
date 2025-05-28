@@ -1,6 +1,6 @@
 [project]
 name = "brivo-smarthome"
-version = "0.0.1a3"
+version = "0.0.1a4"
 description = "Library for interacting with Brivo's API."
 readme = "README.md"
 requires-python = ">=3.13"
@@ -29,7 +29,7 @@ Repository = "https://github.com/Paso-Robles-Vacation-Rentals/brivo-smarthome-py
 
 [tool.poetry]
 packages = [
-    { include = "brivo_smarthome" }
+    { include = "brivo" }
 ]
 
 [build-system]

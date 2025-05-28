@@ -3,8 +3,8 @@ from os import getenv
 
 import httpx
 
-from brivo_smarthome.models.auth import BrivoAuth
-from brivo_smarthome.models.request_factory import BrivoRequests
+from brivo.models.auth import BrivoAuth
+from brivo.models.request_factory import BrivoRequests
 
 
 class BaseBrivoClient(ABC):

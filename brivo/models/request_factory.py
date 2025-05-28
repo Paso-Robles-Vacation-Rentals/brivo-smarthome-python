@@ -2,8 +2,8 @@ from typing import Generator, Any, Iterable
 
 import httpx
 
-from brivo_smarthome.models.unit import UnitSummaryV3
-from brivo_smarthome.models.users import User, RegisteredUser, Profile, UserSummaryV3
+from brivo.models.unit import UnitSummaryV3
+from brivo.models.users import User, RegisteredUser, Profile, UserSummaryV3
 
 
 class BrivoRequests:

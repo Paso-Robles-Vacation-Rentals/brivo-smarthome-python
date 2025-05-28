@@ -5,9 +5,9 @@ from typing import Literal, Any
 
 from pydantic import Field, field_serializer
 
-from brivo_smarthome.models.base import BaseBrivoModel, ResourceLink, BrivoDateTime
-from brivo_smarthome.models.company import RegisteredCompany, RegisteredCompanySummary
-from brivo_smarthome.models.unit import Unit
+from brivo.models.base import BaseBrivoModel, ResourceLink, BrivoDateTime
+from brivo.models.company import RegisteredCompany, RegisteredCompanySummary
+from brivo.models.unit import Unit
 
 
 class UserRole(IntEnum):

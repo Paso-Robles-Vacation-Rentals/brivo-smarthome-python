@@ -3,10 +3,10 @@ from typing import Iterable
 
 import httpx
 
-from brivo_smarthome import App
-from brivo_smarthome.models.company import RegisteredCompany, RegisteredCompanySummary
-from brivo_smarthome.models.unit import RegisteredUnitSummary
-from brivo_smarthome.models.users import User, RegisteredUser, Profile, UserSummaryV3, AccessV3
+from brivo import App
+from brivo.models.company import RegisteredCompany, RegisteredCompanySummary
+from brivo.models.unit import RegisteredUnitSummary
+from brivo.models.users import User, RegisteredUser, Profile, UserSummaryV3, AccessV3
 
 
 class AsyncApp(App):

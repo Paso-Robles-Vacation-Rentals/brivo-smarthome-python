@@ -12,7 +12,7 @@ pip install brivo-smarthome
 ## Example Usage
 
 ```python
-from brivo_smarthome import App
+from brivo import App
 
 # Initialize the client
 # Username and password can be set with environment variables 'BRIVO_USERNAME' and 'BRIVO_PASSWORD'

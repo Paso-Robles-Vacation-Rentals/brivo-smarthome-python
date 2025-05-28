@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Any
 
-from brivo_smarthome.models.base import BaseBrivoModel, BrivoDateTime
+from brivo.models.base import BaseBrivoModel, BrivoDateTime
 
 
 class RegisteredUnitSummary(BaseBrivoModel):

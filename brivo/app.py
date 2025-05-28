@@ -2,10 +2,10 @@ from typing import Iterable
 
 import httpx
 
-from brivo_smarthome.base_app import BaseBrivoClient
-from brivo_smarthome.models.company import RegisteredCompany, RegisteredCompanySummary
-from brivo_smarthome.models.unit import RegisteredUnitSummary, UnitSummaryV3
-from brivo_smarthome.models.users import User, RegisteredUser, Profile, AccessV3, UserSummaryV3
+from brivo.base_app import BaseBrivoClient
+from brivo.models.company import RegisteredCompany, RegisteredCompanySummary
+from brivo.models.unit import RegisteredUnitSummary, UnitSummaryV3
+from brivo.models.users import User, RegisteredUser, Profile, AccessV3, UserSummaryV3
 
 
 class App(BaseBrivoClient):
@@ -119,9 +119,9 @@ class App(BaseBrivoClient):
     def update_user(self, user: RegisteredUser) -> None:
         response = self._handle_request(self._requests.update_user(user))
 
-    def user(self, user_id: int) -> dict:
+    def user(self, user_id: int) -> RegisteredUser:
         response = self._handle_request(self._requests.user(user_id))
-        RegisteredUser.model_validate(response.json())
+        return RegisteredUser.model_validate(response.json())
 
     def update_profile(self, profile: Profile) -> Profile:
         req = self._requests.update_profile(profile)

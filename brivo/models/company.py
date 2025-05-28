@@ -2,7 +2,7 @@ from typing import Annotated, Any
 
 from pydantic import Field
 
-from brivo_smarthome.models.base import BaseBrivoModel
+from brivo.models.base import BaseBrivoModel
 
 class RegisteredCompanySummary(BaseBrivoModel):
     id: int
