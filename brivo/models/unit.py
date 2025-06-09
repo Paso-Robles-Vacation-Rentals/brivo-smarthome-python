@@ -37,8 +37,8 @@ class Unit(BaseBrivoModel):
     master_code: str
     created_at: datetime
     updated_at: datetime
-    temp: int
-    secure: bool
+    temp: int | None
+    secure: bool | None
     dry: bool | None
     is_active: bool
     user: int
