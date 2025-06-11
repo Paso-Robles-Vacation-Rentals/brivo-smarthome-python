@@ -74,6 +74,10 @@ class AsyncApp(App):
         response = await self._handle_request(self._requests.create_user(access))
         return RegisteredUser.model_validate(response.json())
 
+    async def create_user(self, access: UnregisteredUser) -> RegisteredUser:
+        response = await self._handle_request(self._requests.create_user(access))
+        return RegisteredUser.model_validate(response.json())
+
     async def my_company_ids(self) -> list[int]:
         companies_accesses, unit_accesses = await self._fetch_accesses()
 
