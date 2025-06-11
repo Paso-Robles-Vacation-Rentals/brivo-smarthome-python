@@ -85,6 +85,12 @@ class User(BaseBrivoModel):
     def randomize_code(self):
         self.code = self._generate_random_code()
 
+class UnregisteredUser(User):
+    units: list[int] | None = Field(None, validation_alias='property', serialization_alias='property')
+    companies: list[int] | None = Field(None, validation_alias='company', serialization_alias='company')
+    type: Literal['anytime', 'access_window']
+    resource_type: Literal['Access'] = 'Access'
+
 class RegisteredUser(User):
     id: int = Field(frozen=True)
     access_trailing_key: str | None = Field(frozen=True)
@@ -92,7 +98,7 @@ class RegisteredUser(User):
     emergency_state: Literal['not', 'used'] = Field('not', frozen=True)
     has_schedule: bool = False
     is_overridden: bool = False
-    type: Literal['access_window', 'anytime']
+    type: Literal['access_window', 'anytime'] = 'access_window'
 
 
 class Profile(BaseBrivoModel):

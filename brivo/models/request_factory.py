@@ -3,7 +3,7 @@ from typing import Generator, Any, Iterable
 import httpx
 
 from brivo.models.unit import UnitSummaryV3
-from brivo.models.users import User, RegisteredUser, Profile, UserSummaryV3
+from brivo.models.users import RegisteredUser, Profile, UnregisteredUser
 
 
 class BrivoRequests:
@@ -27,8 +27,8 @@ class BrivoRequests:
     def put(self, endpoint: str, payload: dict = None) -> httpx.Request:
         return self._request('PUT', endpoint, payload=payload)
 
-    def delete(self, endpoint: str, payload: dict) -> httpx.Request:
-        return self._request('DELETE', endpoint)
+    def delete(self, endpoint: str, payload: dict = None) -> httpx.Request:
+        return self._request('DELETE', endpoint, payload=payload)
 
     def company(self, company_id: int) -> httpx.Request:
         return self.get(f'/v3/company/{company_id}')
@@ -55,10 +55,13 @@ class BrivoRequests:
         }
         return self.get(f'/v3/property', params=params)
 
-    def create_user(self, access: User) -> httpx.Request:
-        if type(access) is not User:
-            raise TypeError(f'Expected Access, got {type(access)}')
+    def create_user(self, access: UnregisteredUser) -> httpx.Request:
+        if type(access) is not UnregisteredUser:
+            raise TypeError(f'Expected UnregisteredUser, got {type(access)}')
         return self.post('/v1/accesses', access.model_dump(exclude_none=True))
+
+    def delete_user(self, user_id: int) -> httpx.Request:
+        return self.delete(f'/v1/accesses/{user_id}')
 
     def my_profile(self) -> httpx.Request:
         return self.get('/v1/users/me')

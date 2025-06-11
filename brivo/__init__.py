@@ -1,12 +1,9 @@
 from .app import App
 from .async_app import AsyncApp
-from .models.unit import Unit
 __all__ = [
     # Clients
     'App',
-    'AsyncApp',
-
-    'Unit'
+    'AsyncApp'
 ]
 
 # Package metadata

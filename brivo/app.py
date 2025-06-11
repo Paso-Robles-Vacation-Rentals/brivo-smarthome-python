@@ -5,7 +5,7 @@ import httpx
 from brivo.base_app import BaseBrivoClient
 from brivo.models.company import RegisteredCompany, RegisteredCompanySummary
 from brivo.models.unit import RegisteredUnitSummary, UnitSummaryV3
-from brivo.models.users import User, RegisteredUser, Profile, AccessV3, UserSummaryV3
+from brivo.models.users import RegisteredUser, Profile, AccessV3, UserSummaryV3, UnregisteredUser
 
 
 class App(BaseBrivoClient):
@@ -48,6 +48,9 @@ class App(BaseBrivoClient):
         response = self._handle_request(self._requests.company_accesses(company_access_id))
         return [RegisteredCompanySummary.model_validate(access) for access in response.json()]
 
+    def delete_user(self, user_id: int) -> None:
+       self._handle_request(self._requests.delete_user(user_id))
+
     def unit_users(self, unit_id: int, include_company_users: bool = False) -> list[UserSummaryV3]:
         response = self._handle_request(self._requests.unit_users(unit_id))
         users = []
@@ -78,7 +81,7 @@ class App(BaseBrivoClient):
                 users.extend(UserSummaryV3.model_validate(result) for result in results if result['id'] not in {user.id for user in users})
             return users
 
-    def create_user(self, access: User) -> RegisteredUser:
+    def create_user(self, access: UnregisteredUser) -> RegisteredUser:
         response = self._handle_request(self._requests.create_user(access))
         return RegisteredUser.model_validate(response.json())
 

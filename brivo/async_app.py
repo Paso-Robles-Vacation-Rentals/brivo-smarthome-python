@@ -6,7 +6,7 @@ import httpx
 from brivo import App
 from brivo.models.company import RegisteredCompany, RegisteredCompanySummary
 from brivo.models.unit import RegisteredUnitSummary
-from brivo.models.users import User, RegisteredUser, Profile, UserSummaryV3, AccessV3
+from brivo.models.users import RegisteredUser, Profile, UserSummaryV3, AccessV3, UnregisteredUser
 
 
 class AsyncApp(App):
@@ -70,7 +70,7 @@ class AsyncApp(App):
                 users.extend(UserSummaryV3.model_validate(result) for result in results if result['id'] not in {user.id for user in users})
             return users
 
-    async def create_access(self, access: User) -> RegisteredUser:
+    async def create_access(self, access: UnregisteredUser) -> RegisteredUser:
         response = await self._handle_request(self._requests.create_user(access))
         return RegisteredUser.model_validate(response.json())
 
@@ -83,6 +83,9 @@ class AsyncApp(App):
         for unit in unit_accesses:
             my_companies.add(unit.company)
         return list(my_companies)
+
+    async def delete_user(self, user_id: int) -> None:
+       await self._handle_request(self._requests.delete_user(user_id))
 
     async def my_profile(self) -> Profile:
         response = await self._handle_request(self._requests.my_profile())
