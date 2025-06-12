@@ -81,9 +81,9 @@ class App(BaseBrivoClient):
                 users.extend(UserSummaryV3.model_validate(result) for result in results if result['id'] not in {user.id for user in users})
             return users
 
-    def create_user(self, access: UnregisteredUser) -> RegisteredUser:
+    def create_user(self, access: UnregisteredUser) -> int:
         response = self._handle_request(self._requests.create_user(access))
-        return RegisteredUser.model_validate(response.json())
+        return response.json()['id']
 
     def my_v3_accesses(self) -> list[AccessV3]:
         response = self._handle_request(self._requests.my_v3_accesses())

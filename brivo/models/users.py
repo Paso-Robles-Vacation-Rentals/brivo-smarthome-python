@@ -3,7 +3,7 @@ from enum import IntEnum
 from random import randint
 from typing import Literal, Any
 
-from pydantic import Field, field_serializer, AliasChoices
+from pydantic import Field, field_serializer, AliasChoices, model_serializer
 
 from brivo.models.base import BaseBrivoModel, ResourceLink, BrivoDateTime
 from brivo.models.company import RegisteredCompany, RegisteredCompanySummary
@@ -52,9 +52,8 @@ class UserSummaryV3(BaseBrivoModel):
     temp_disabled: bool
     has_schedule: bool | dict
 
-class User(BaseBrivoModel):
-    code: str | None = Field(default_factory=lambda: User._generate_random_code())
-    companies: list[RegisteredCompanySummary] | None = Field(None, validation_alias=AliasChoices('company', 'companies'), serialization_alias='company')
+class BaseUser(BaseBrivoModel):
+    code: str | None = Field(default_factory=lambda: BaseUser._generate_random_code())
     delivery_method: Literal['none', 'email', 'sms', 'email_sms'] = 'none'
     email: str | None = None
     end_time: BrivoDateTime | None = None
@@ -62,12 +61,45 @@ class User(BaseBrivoModel):
     is_code: bool = True
     is_locking: bool = True
     last_name: str
-    mobile_pass: str | None = Field(None, frozen=True) # Unknown type. guessing it's a string.
+    mobile_pass: str | None = Field(default=None, frozen=True) # Unknown type. Guessing it's a string.
     phone: str | None = None
     role: UserRole = Field(UserRole.GUEST, validation_alias=AliasChoices('group', 'role'), serialization_alias='group')
     start_time: BrivoDateTime = Field(default_factory=datetime.now)
     temp_disabled: bool = False
     type: Literal['Access']
+
+    @staticmethod
+    def _generate_random_code() -> str:
+        return format(randint(0, 9999), '04')
+
+    def randomize_code(self):
+        self.code = self._generate_random_code()
+
+class UnregisteredUser(BaseUser):
+    units: list[int] | None = Field(None, validation_alias=AliasChoices('property', 'units'), serialization_alias='property')
+    companies: list[int] | None = Field(None, validation_alias=AliasChoices('company', 'companies'), serialization_alias='company')
+    type: Literal['anytime', 'access_window']
+    resource_type: Literal['Access'] = 'Access'
+    user: None = Field(default=None, frozen=True)
+
+    @model_serializer(mode='wrap')
+    def serialize_model(self, handler):
+        output = handler(self)
+        if self.companies:
+            output.pop('property', None)
+        if self.units:
+            output.pop('company', None)
+        return output
+
+class RegisteredUser(BaseUser):
+    id: int = Field(frozen=True)
+    access_trailing_key: str | None = Field(frozen=True)
+    alternate_id: str | None = Field(None, frozen=True)
+    companies: list[RegisteredCompanySummary] | None = Field(None, validation_alias=AliasChoices('company', 'companies'), serialization_alias='company')
+    emergency_state: Literal['not', 'used'] = Field('not', frozen=True)
+    has_schedule: bool = False
+    is_overridden: bool = False
+    type: Literal['access_window', 'anytime'] = 'access_window'
     units: list[Unit] | None = Field(None, validation_alias=AliasChoices('property', 'units'), serialization_alias='property')
 
     @field_serializer('companies')
@@ -77,28 +109,6 @@ class User(BaseBrivoModel):
     @field_serializer('units')
     def serialize_units(self, units: list[Unit]):
         return [unit.id for unit in units] if units else None
-
-    @staticmethod
-    def _generate_random_code() -> str:
-        return format(randint(0, 9999), '04')
-
-    def randomize_code(self):
-        self.code = self._generate_random_code()
-
-class UnregisteredUser(User):
-    units: list[int] | None = Field(None, validation_alias=AliasChoices('property', 'units'), serialization_alias='property')
-    companies: list[int] | None = Field(None, validation_alias=AliasChoices('company', 'companies'), serialization_alias='company')
-    type: Literal['anytime', 'access_window']
-    resource_type: Literal['Access'] = 'Access'
-
-class RegisteredUser(User):
-    id: int = Field(frozen=True)
-    access_trailing_key: str | None = Field(frozen=True)
-    alternate_id: str | None = Field(None, frozen=True)
-    emergency_state: Literal['not', 'used'] = Field('not', frozen=True)
-    has_schedule: bool = False
-    is_overridden: bool = False
-    type: Literal['access_window', 'anytime'] = 'access_window'
 
 
 class Profile(BaseBrivoModel):

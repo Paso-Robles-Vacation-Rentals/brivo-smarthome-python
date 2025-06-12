@@ -58,7 +58,7 @@ class BrivoRequests:
     def create_user(self, access: UnregisteredUser) -> httpx.Request:
         if type(access) is not UnregisteredUser:
             raise TypeError(f'Expected UnregisteredUser, got {type(access)}')
-        return self.post('/v1/accesses', access.model_dump(exclude_none=True))
+        return self.post('/v1/accesses', access.model_dump())
 
     def delete_user(self, user_id: int) -> httpx.Request:
         return self.delete(f'/v1/accesses/{user_id}')
