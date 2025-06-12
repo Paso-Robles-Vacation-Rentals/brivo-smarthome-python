@@ -9,7 +9,7 @@ BrivoDateTime = Annotated[
 ]
 
 class BaseBrivoModel(BaseModel):
-    model_config = ConfigDict(extra='allow', serialize_by_alias=True, validate_by_alias=True)
+    model_config = ConfigDict(extra='allow', serialize_by_alias=True)
 
     def update_from_response(self, response_object: Self) -> Self:
         for attr, value in self.__dict__.items():

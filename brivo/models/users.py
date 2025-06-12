@@ -3,7 +3,7 @@ from enum import IntEnum
 from random import randint
 from typing import Literal, Any
 
-from pydantic import Field, field_serializer
+from pydantic import Field, field_serializer, AliasChoices
 
 from brivo.models.base import BaseBrivoModel, ResourceLink, BrivoDateTime
 from brivo.models.company import RegisteredCompany, RegisteredCompanySummary
@@ -41,7 +41,7 @@ class UserSummaryV3(BaseBrivoModel):
     last_name: str
     alternate_id: str | None
     email: str | None
-    role: UserRole = Field(validation_alias='group', serialization_alias='group')
+    role: UserRole = Field(validation_alias=AliasChoices('group', 'role'), serialization_alias='group')
     is_overridden: bool
     start_time: BrivoDateTime
     end_time: BrivoDateTime | None
@@ -54,7 +54,7 @@ class UserSummaryV3(BaseBrivoModel):
 
 class User(BaseBrivoModel):
     code: str | None = Field(default_factory=lambda: User._generate_random_code())
-    companies: list[RegisteredCompanySummary] | None = Field(None, validation_alias='company', serialization_alias='company')
+    companies: list[RegisteredCompanySummary] | None = Field(None, validation_alias=AliasChoices('company', 'companies'), serialization_alias='company')
     delivery_method: Literal['none', 'email', 'sms', 'email_sms'] = 'none'
     email: str | None = None
     end_time: BrivoDateTime | None = None
@@ -64,11 +64,11 @@ class User(BaseBrivoModel):
     last_name: str
     mobile_pass: str | None = Field(None, frozen=True) # Unknown type. guessing it's a string.
     phone: str | None = None
-    role: UserRole = Field(UserRole.GUEST, validation_alias='group', serialization_alias='group')
+    role: UserRole = Field(UserRole.GUEST, validation_alias=AliasChoices('group', 'role'), serialization_alias='group')
     start_time: BrivoDateTime = Field(default_factory=datetime.now)
     temp_disabled: bool = False
     type: Literal['Access']
-    units: list[Unit] | None = Field(None, validation_alias='property', serialization_alias='property')
+    units: list[Unit] | None = Field(None, validation_alias=AliasChoices('property', 'units'), serialization_alias='property')
 
     @field_serializer('companies')
     def serialize_companies(self, companies: list[RegisteredCompany]):
@@ -86,8 +86,8 @@ class User(BaseBrivoModel):
         self.code = self._generate_random_code()
 
 class UnregisteredUser(User):
-    units: list[int] | None = Field(None, validation_alias='property', serialization_alias='property')
-    companies: list[int] | None = Field(None, validation_alias='company', serialization_alias='company')
+    units: list[int] | None = Field(None, validation_alias=AliasChoices('property', 'units'), serialization_alias='property')
+    companies: list[int] | None = Field(None, validation_alias=AliasChoices('company', 'companies'), serialization_alias='company')
     type: Literal['anytime', 'access_window']
     resource_type: Literal['Access'] = 'Access'
 
@@ -110,7 +110,7 @@ class Profile(BaseBrivoModel):
     phone: str = ''
     is_active: bool
     is_superuser: bool
-    role: UserRole = Field(validation_alias='group', serialization_alias='group')
+    role: UserRole = Field(validation_alias=AliasChoices('group', 'role'), serialization_alias='group')
     last_viewed_company: int
     system_message: bool
     password_last_changed: BrivoDateTime
